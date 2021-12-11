@@ -34,6 +34,8 @@ namespace DriveVidStore_Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "C:\\firebase-secrets\\drivevidstore-firebase-adminsdk-fxpsy-2ed43d6e16.json");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

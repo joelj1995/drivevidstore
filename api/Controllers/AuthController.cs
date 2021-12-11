@@ -26,5 +26,20 @@ namespace DriveVidStore_Api.Controllers
         {
             return _authService.Login(userName, password);
         }
+
+        [Route("create-account")]
+        [HttpPost]
+        public async Task<IActionResult> CreateAccount(CreateAccountRequest loginRequest)
+        {
+            bool createAccountSucceeded = await _authService.CreateAccount(loginRequest);
+            if (createAccountSucceeded)
+            {
+                return Ok(new CreateAccountResponse { Succeeded = true });
+            }
+            else
+            {
+                return StatusCode(500, new CreateAccountResponse { Succeeded = false, Error = "A user with that email already exists." });
+            }
+        }
     }
 }
