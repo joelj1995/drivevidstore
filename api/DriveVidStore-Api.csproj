@@ -5,5 +5,9 @@
     <RootNamespace>DriveVidStore_Api</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FirebaseAdmin" Version="2.2.0" />
+  </ItemGroup>
+
 
 </Project>
