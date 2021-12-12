@@ -8,7 +8,6 @@ namespace DriveVidStore_Api.Services.Interface
 {
     public interface IAuthService
     {
-        LoginResponse Login(string userName, string password);
         Task<bool> CreateAccount(CreateAccountRequest createAccountRequest);
     }
 }

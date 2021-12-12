@@ -25,13 +25,5 @@ namespace DriveVidStore_Api.Services.Implementation
                 return false;
             }
         }
-
-        public LoginResponse Login(string userName, string password)
-        {
-            return new LoginResponse()
-            {
-                Token = "1234"
-            };
-        }
     }
 }

@@ -20,13 +20,6 @@ namespace DriveVidStore_Api.Controllers
             _authService = authService;
         }
 
-        [Route("login")]
-        [HttpPost]
-        public LoginResponse Login(string userName, string password)
-        {
-            return _authService.Login(userName, password);
-        }
-
         [Route("create-account")]
         [HttpPost]
         public async Task<IActionResult> CreateAccount(CreateAccountRequest loginRequest)
