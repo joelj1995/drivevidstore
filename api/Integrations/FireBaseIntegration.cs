@@ -1,6 +1,8 @@
 ﻿using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,11 @@ namespace DriveVidStore_Api.Integrations
             get => FirebaseAuth.GetAuth(app);
         }
 
+        public FirestoreDb db
+        {
+            get => FirestoreDb.Create("drivevidstore");
+        }
+
         public async Task<bool> CreateAccount(string email, string password)
         {
             await auth.CreateUserAsync(new UserRecordArgs
@@ -32,6 +39,15 @@ namespace DriveVidStore_Api.Integrations
                 Email = email,
                 Password = password
             });
+            return true;
+        }
+
+        public async Task<bool> AddApiKey(string userId, string name, string key)
+        {
+            dynamic[] keys = { new { name, key } };
+            CollectionReference collection = db.Collection("users");
+            DocumentReference document = collection.Document(userId);
+            await document.SetAsync(new { DriveApiKeys = FieldValue.ArrayUnion(keys) }, SetOptions.MergeAll);
             return true;
         }
     }

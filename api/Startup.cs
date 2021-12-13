@@ -31,6 +31,7 @@ namespace DriveVidStore_Api
         {
             services.AddControllers();
             services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<IProfileService, ProfileService>();
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
