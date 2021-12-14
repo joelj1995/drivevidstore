@@ -48,5 +48,13 @@ namespace DriveVidStore_Api.Integrations
             DocumentReference document = collection.Document(userId);
             await document.SetAsync(new { DriveApiKeys = FieldValue.ArrayUnion(keys) }, SetOptions.MergeAll);
         }
+
+        public async Task RemoveApiKey(string userId, string name, string key)
+        {
+            dynamic[] keys = { new { name, key } };
+            CollectionReference collection = db.Collection("users");
+            DocumentReference document = collection.Document(userId);
+            await document.SetAsync(new { DriveApiKeys = FieldValue.ArrayRemove(keys) }, SetOptions.MergeAll);
+        }
     }
 }

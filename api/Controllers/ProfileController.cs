@@ -31,5 +31,14 @@ namespace DriveVidStore_Api.Controllers
             await _profileService.AddDriveApiKey(userId, addKeyRequest);
             return Ok();
         }
+
+        [Route("api-keys")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteKey(AddKeyRequest addKeyRequest)
+        {
+            var userId = User.Claims.First(c => c.Type == "user_id").Value;
+            await _profileService.RemoveDriveApiKey(userId, addKeyRequest);
+            return Ok();
+        }
     }
 }

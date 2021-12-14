@@ -16,5 +16,10 @@ namespace DriveVidStore_Api.Services.Implementation
         {
             await _fb.AddApiKey(user, addKeyRequest.Name, addKeyRequest.Key);
         }
+
+        public async Task RemoveDriveApiKey(string user, AddKeyRequest addKeyRequest)
+        {
+            await _fb.RemoveApiKey(user, addKeyRequest.Name, addKeyRequest.Key);
+        }
     }
 }
