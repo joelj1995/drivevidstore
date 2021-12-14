@@ -1,4 +1,5 @@
-﻿using FirebaseAdmin;
+﻿using DriveVidStore_Api.Models.Job;
+using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
@@ -55,6 +56,11 @@ namespace DriveVidStore_Api.Integrations
             CollectionReference collection = db.Collection("users");
             DocumentReference document = collection.Document(userId);
             await document.SetAsync(new { DriveApiKeys = FieldValue.ArrayRemove(keys) }, SetOptions.MergeAll);
+        }
+
+        public async Task ValidateJob(JobData jobData)
+        {
+            throw new NotImplementedException();
         }
     }
 }
