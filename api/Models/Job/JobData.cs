@@ -9,5 +9,7 @@ namespace DriveVidStore_Api.Models.Job
     {
         public string User { get; set; }
         public string Identifier { get; set; }
+        public string ApiKey { get; set; }
+        // TODO: Add encoding attributes for the compression of the file
     }
 }
