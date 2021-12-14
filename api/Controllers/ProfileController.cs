@@ -28,7 +28,7 @@ namespace DriveVidStore_Api.Controllers
         public async Task<IActionResult> AddKey(AddKeyRequest addKeyRequest)
         {
             var userId = User.Claims.First(c => c.Type == "user_id").Value;
-            bool result = await _profileService.AddDriveApiKey(userId, addKeyRequest);
+            await _profileService.AddDriveApiKey(userId, addKeyRequest);
             return Ok();
         }
     }

@@ -8,6 +8,6 @@ namespace DriveVidStore_Api.Services.Interface
 {
     public interface IProfileService
     {
-        Task<bool> AddDriveApiKey(string user, AddKeyRequest addKeyRequest);
+        Task AddDriveApiKey(string user, AddKeyRequest addKeyRequest);
     }
 }

@@ -12,9 +12,9 @@ namespace DriveVidStore_Api.Services.Implementation
     {
         private readonly FireBaseIntegration _fb = new FireBaseIntegration();
 
-        public async Task<bool> AddDriveApiKey(string user, AddKeyRequest addKeyRequest)
+        public async Task AddDriveApiKey(string user, AddKeyRequest addKeyRequest)
         {
-            return await _fb.AddApiKey(user, addKeyRequest.Name, addKeyRequest.Key);
+            await _fb.AddApiKey(user, addKeyRequest.Name, addKeyRequest.Key);
         }
     }
 }
