@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "drivevidstore": {
+      "hosting": {
+        "drive-vid-store-ui": [
+          "drivevidstore"
+        ]
+      }
+    }
+  }
+}

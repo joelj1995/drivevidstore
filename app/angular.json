@@ -118,6 +118,10 @@
               "devServerTarget": "drive-vid-store-ui:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }
