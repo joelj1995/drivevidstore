@@ -1,13 +1,22 @@
-<form class="login-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Email address</mat-label>
-    <input name="email" matInput [(ngModel)]="email">
-  </mat-form-field>
-
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Password</mat-label>
-    <input name="password" matInput [(ngModel)]="password">
-  </mat-form-field>
-
-  <button mat-raised-button color="primary" (click)="submitLogin($event)">Primary</button>
-</form>
+<div class="login-container">
+  <div class="login-fields">
+    <h1>Login to DriveVidStore</h1>
+    <div>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Email address</mat-label>
+        <input name="email" matInput [(ngModel)]="email" required>
+      </mat-form-field>
+    </div>
+  
+    <div>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input name="password" type="password" matInput [(ngModel)]="password" required>
+      </mat-form-field>
+    </div>
+  
+    <div>
+      <button mat-raised-button color="primary" (click)="submitLogin($event)">Login</button>
+    </div>
+  </div>
+</div>
