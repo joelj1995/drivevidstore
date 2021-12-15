@@ -9,13 +9,9 @@ import { AngularFireModule } from '@angular/fire';
 
 import { environment } from '../environments/environment';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
 import { LoginComponent } from './login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -28,11 +24,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
+    MaterialModule,
     AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [],
