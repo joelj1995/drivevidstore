@@ -1,1 +1,15 @@
-<p>login works!</p>
+<mat-card>
+  <form class="login-form">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Email address</mat-label>
+      <input name="email" matInput [(ngModel)]="email">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input name="password" matInput [(ngModel)]="password">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="submitLogin($event)">Primary</button>
+  </form>
+</mat-card>
