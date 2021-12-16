@@ -1,4 +1,5 @@
 ﻿using DriveVidStore_Api.Models.Job;
+using DriveVidStore_Api.Models.Profile;
 using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
@@ -56,6 +57,14 @@ namespace DriveVidStore_Api.Integrations
             CollectionReference collection = db.Collection("users");
             DocumentReference document = collection.Document(userId);
             await document.SetAsync(new { DriveApiKeys = FieldValue.ArrayRemove(keys) }, SetOptions.MergeAll);
+        }
+
+        public async Task<IEnumerable<DriveKey>> GetKeys(string userId)
+        {
+            var userReference = db.Collection("users").Document(userId);
+            var keysReference = await userReference.GetSnapshotAsync();
+            var keys = keysReference.GetValue<dynamic[]>("DriveApiKeys");
+            return keys.Select(k => new DriveKey { Key = k["key"], Name = k["name"] });
         }
 
         public async Task ValidateJob(JobData jobData)
