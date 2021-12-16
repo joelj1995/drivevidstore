@@ -59,6 +59,8 @@ namespace DriveVidStore_Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(options => options.WithOrigins("http://localhost:4200"));
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
