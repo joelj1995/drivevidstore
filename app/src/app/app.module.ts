@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { LoginComponent } from './login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { MaterialModule } from './material/material.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MaterialModule } from './material/material.module';
     BrowserAnimationsModule,
     FormsModule,
     MaterialModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [],

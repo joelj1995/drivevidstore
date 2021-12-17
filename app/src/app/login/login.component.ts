@@ -22,6 +22,10 @@ export class LoginComponent implements OnInit {
     e.preventDefault();
     this.fireAuth.signInWithEmailAndPassword(this.email, this.password)
       .then(value => {
+        return value.user.getIdToken();
+      })
+      .then(token => {
+        localStorage.setItem('firebaseJWT', token);
         this.router.navigate(['']);
       })
       .catch(reason => {
