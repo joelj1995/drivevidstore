@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { ApiService } from 'src/app/api.service';
 
 import {v4 as uuidv4} from 'uuid';
 
@@ -10,7 +11,7 @@ import {v4 as uuidv4} from 'uuid';
 })
 export class FileUploadComponent implements OnInit {
 
-  constructor(private fireStorage : AngularFireStorage) { }
+  constructor(private fireStorage : AngularFireStorage, private apiService: ApiService) { }
 
   ngOnInit(): void {
   }
@@ -24,6 +25,10 @@ export class FileUploadComponent implements OnInit {
     this.fireStorage.upload(`${userId}/${uploadUid}`, fileToUpload)
       .then(snapshot => {
         console.log('File upload completed');
+        return this.apiService.equeueUpload(uploadUid).toPromise();
+      })
+      .then(value => {
+        console.log('Upload enqueued');
       });
   }
 
