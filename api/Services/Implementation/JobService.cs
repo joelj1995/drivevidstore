@@ -16,7 +16,7 @@ namespace DriveVidStore_Api.Services.Implementation
         public async Task EnqueueUpload(JobData jobData)
         {
             // validate that the specified file identifier exists for the user
-            await _fb.ValidateJob(jobData);
+            // await _fb.ValidateJob(jobData);
             await _azureIntegration.EnqueueJob(jobData);
         }
     }
