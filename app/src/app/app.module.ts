@@ -13,12 +13,14 @@ import { LoginComponent } from './login/login.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from '@angular/common/http';
+import { FileUploadComponent } from './file-upload/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     MaterialModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [],
   bootstrap: [AppComponent]

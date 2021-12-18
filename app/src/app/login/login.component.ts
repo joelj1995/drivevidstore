@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
     e.preventDefault();
     this.fireAuth.signInWithEmailAndPassword(this.email, this.password)
       .then(value => {
+        localStorage.setItem('firebaseUserID', value.user.uid)
         return value.user.getIdToken();
       })
       .then(token => {
