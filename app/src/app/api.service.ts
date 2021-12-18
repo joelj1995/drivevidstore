@@ -19,15 +19,15 @@ export class ApiService {
     return this.http.get(this.BASE_URL + path, this.createHeaders());
   }
 
-  postPath(path: string) {
-    return this.http.post(this.BASE_URL + path, null, this.createHeaders());
+  postPath(path: string, body: any) {
+    return this.http.post(this.BASE_URL + path, body, this.createHeaders());
   }
 
   getDriveApiKeys() {
     return this.getPath('/profile/api-keys');
   }
 
-  equeueUpload(identifier: string) {
-    return this.postPath(`/job/${identifier}`);
+  equeueUpload(identifier: string, apiKey) {
+    return this.postPath(`/job/${identifier}`, { 'ApiKey' : apiKey });
   }
 }

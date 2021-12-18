@@ -25,7 +25,7 @@ export class FileUploadComponent implements OnInit {
     this.fireStorage.upload(`${userId}/${uploadUid}`, fileToUpload)
       .then(snapshot => {
         console.log('File upload completed');
-        return this.apiService.equeueUpload(uploadUid).toPromise();
+        return this.apiService.equeueUpload(uploadUid, 'foo').toPromise();
       })
       .then(value => {
         console.log('Upload enqueued');

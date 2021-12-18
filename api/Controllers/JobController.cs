@@ -24,13 +24,14 @@ namespace DriveVidStore_Api.Controllers
 
         [HttpPost]
         [Route("{identifier}")]
-        public async Task<IActionResult> EnqueueUpload(string identifier)
+        public async Task<IActionResult> EnqueueUpload([FromRoute] string identifier, EnqueueJobRequest jobRequest)
         {
             var userId = User.Claims.First(c => c.Type == "user_id").Value;
             var jobData = new JobData
             {
                 User = userId,
-                Identifier = identifier
+                Identifier = identifier,
+                ApiKey = jobRequest.ApiKey
             };
             await _jobService.EnqueueUpload(jobData);
             return Ok();
