@@ -1,8 +1,10 @@
 ﻿using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
+using Google.Cloud.Storage.V1;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DriveVidStore_Worker
 {
@@ -19,7 +21,6 @@ namespace DriveVidStore_Worker
                 PollAndProcessJob();
                 System.Threading.Thread.Sleep(50);
             }
-            
         }
 
         public static void PollAndProcessJob()
@@ -53,7 +54,14 @@ namespace DriveVidStore_Worker
 
         public static string DownloadJobAndReturnPath(string userId, string identifier)
         {
-            throw new NotImplementedException();
+            var storageClient = StorageClient.Create();
+            var destinationPath = @"c:\tmp-download\" + $"{userId}-{identifier}";
+            
+            using (FileStream fs = File.Create(destinationPath))
+            {
+                storageClient.DownloadObject("drivevidstore.appspot.com", $"{userId}/{identifier}", fs); // TODO: inject bucket name
+            }
+            return destinationPath;
         }
 
         public static void UploadJobDataToDrive(string jobDataPath, string jobApiKey)
