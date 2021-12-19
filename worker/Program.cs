@@ -66,7 +66,11 @@ namespace DriveVidStore_Worker
 
         public static void UploadJobDataToDrive(string jobDataPath, string jobApiKey)
         {
-            throw new NotImplementedException();
+            var client = new GoogleDriveResumableUploader(jobApiKey);
+            using (FileStream fs = System.IO.File.OpenRead(jobDataPath))
+            {
+                client.UploadFile(fs, DateTime.Now.ToString()); // TODO: name shoud be stored and pulled from the job
+            }
         }
     }
 }
