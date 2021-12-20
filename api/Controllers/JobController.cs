@@ -31,7 +31,8 @@ namespace DriveVidStore_Api.Controllers
             {
                 User = userId,
                 Identifier = identifier,
-                ApiKey = jobRequest.ApiKey
+                ApiKey = jobRequest.ApiKey,
+                FileName = jobRequest.FileName
             };
             await _jobService.EnqueueUpload(jobData);
             return Ok();

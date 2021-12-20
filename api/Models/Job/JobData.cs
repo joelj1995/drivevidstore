@@ -7,6 +7,7 @@ namespace DriveVidStore_Api.Models.Job
 {
     public class JobData
     {
+        public string FileName { get; set; }
         public string User { get; set; }
         public string Identifier { get; set; }
         public string ApiKey { get; set; }

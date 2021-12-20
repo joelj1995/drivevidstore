@@ -27,7 +27,7 @@ export class ApiService {
     return this.getPath('/profile/api-keys');
   }
 
-  equeueUpload(identifier: string, apiKey) {
-    return this.postPath(`/job/${identifier}`, { 'ApiKey' : apiKey });
+  equeueUpload(identifier: string, apiKey: string, fileName: string) {
+    return this.postPath(`/job/${identifier}`, { 'ApiKey' : apiKey, 'FileName': fileName});
   }
 }

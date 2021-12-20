@@ -42,12 +42,16 @@ namespace DriveVidStore_Worker
                     var jobUserId = messageBody["User"];
                     var jobId = messageBody["Identifier"];
                     var jobApiKey = messageBody["ApiKey"];
+                    var jobFileName = messageBody["FileName"];
 
                     var jobDataPath = DownloadJobAndReturnPath(jobUserId, jobId);
-                    UploadJobDataToDrive(jobDataPath, jobApiKey);
+                    UploadJobDataToDrive(jobDataPath, jobApiKey, jobFileName);
+
+                    // TODO: Delete file from FireBase on success
 
                     // Delete the message
                     queueClient.DeleteMessage(retrievedMessage[0].MessageId, retrievedMessage[0].PopReceipt);
+                    Console.WriteLine("Message processed successfully.");
                 }
             }
         }
@@ -55,7 +59,7 @@ namespace DriveVidStore_Worker
         public static string DownloadJobAndReturnPath(string userId, string identifier)
         {
             var storageClient = StorageClient.Create();
-            var destinationPath = @"c:\tmp-download\" + $"{userId}-{identifier}";
+            var destinationPath = @"c:\tmp-download\" + $"{userId}-{identifier}"; // TODO: Inject destination path
             
             using (FileStream fs = File.Create(destinationPath))
             {
@@ -64,12 +68,12 @@ namespace DriveVidStore_Worker
             return destinationPath;
         }
 
-        public static void UploadJobDataToDrive(string jobDataPath, string jobApiKey)
+        public static void UploadJobDataToDrive(string jobDataPath, string jobApiKey, string fileName)
         {
             var client = new GoogleDriveResumableUploader(jobApiKey);
             using (FileStream fs = System.IO.File.OpenRead(jobDataPath))
             {
-                client.UploadFile(fs, DateTime.Now.ToString()); // TODO: name shoud be stored and pulled from the job
+                client.UploadFile(fs, fileName); // TODO: name shoud be stored and pulled from the job
             }
         }
     }
