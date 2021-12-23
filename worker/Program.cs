@@ -12,6 +12,7 @@ namespace DriveVidStore_Worker
     {
         private const string UPLOAD_JOBS_QUEUE_NAME = "uploadjobs";
         private static string StorageAccountConnectionString => Environment.GetEnvironmentVariable("StorageAccountConnectionString");
+        private static string FfmpegPath => @"C:\Users\colte\Downloads\ffmpeg-2021-12-23-git-60ead5cd68-essentials_build\bin\ffmpeg.exe"; // TODO: Get this from configuration
 
         static void Main(string[] args)
         {
@@ -45,7 +46,8 @@ namespace DriveVidStore_Worker
                     var jobFileName = messageBody["FileName"];
 
                     var jobDataPath = DownloadJobAndReturnPath(jobUserId, jobId);
-                    UploadJobDataToDrive(jobDataPath, jobApiKey, jobFileName);
+                    var processedJobDataPath = CompressJobDataAndReturnPath(jobDataPath);
+                    UploadJobDataToDrive(processedJobDataPath, jobApiKey, jobFileName);
 
                     // TODO: Delete file from FireBase on success
 
@@ -68,12 +70,40 @@ namespace DriveVidStore_Worker
             return destinationPath;
         }
 
-        public static void UploadJobDataToDrive(string jobDataPath, string jobApiKey, string fileName)
+        public static string CompressJobDataAndReturnPath(string jobDatapath)
+        {
+            Console.WriteLine(jobDatapath);
+            string processedFilePath = jobDatapath + ".processed.mp4";
+            string compressVideoCommand = $"{FfmpegPath} -i {jobDatapath} -vcodec h264 -acodec mp3 {processedFilePath}";
+            Console.WriteLine(compressVideoCommand);
+            var commandExitStatus = ExecuteCommandUnsafe(compressVideoCommand);
+            if (commandExitStatus != 0)
+            {
+                // TODO: logic for processing failed status
+                Console.WriteLine($"Failed to process video. Processed finished with result {commandExitStatus}");
+            };
+            return processedFilePath;
+        }
+
+        public static int ExecuteCommandUnsafe(string command)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = $"/C {command}";
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+            return process.ExitCode;
+        }
+
+        public static void UploadJobDataToDrive(string processedJobDataPath, string jobApiKey, string fileName)
         {
             var client = new GoogleDriveResumableUploader(jobApiKey);
-            using (FileStream fs = System.IO.File.OpenRead(jobDataPath))
+            using (FileStream fs = System.IO.File.OpenRead(processedJobDataPath))
             {
-                client.UploadFile(fs, fileName); // TODO: name shoud be stored and pulled from the job
+                client.UploadFile(fs, fileName);
             }
         }
     }
