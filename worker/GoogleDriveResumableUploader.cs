@@ -41,7 +41,20 @@ namespace DriveVidStore_Worker
             };
             client.Headers[HttpRequestHeader.ContentType] = "application/json";
             string fileMetadataJson = JsonConvert.SerializeObject(fileMetadata);
-            client.UploadString(StartUploadUrl, fileMetadataJson);
+            try
+            {
+                client.UploadString(StartUploadUrl, fileMetadataJson);
+            }
+            catch (WebException ex)
+            {
+                StreamReader sr = new StreamReader(ex.Response.GetResponseStream());
+                var res = sr.ReadToEnd();
+                var statusCode = ((HttpWebResponse)ex.Response).StatusCode;
+                if (statusCode == System.Net.HttpStatusCode.Unauthorized)
+                    throw new AuthTokenExpiredException();
+                else
+                    throw ex;
+            }
             var responseHeaders = client.ResponseHeaders;
             return responseHeaders.Get("Location");
         }

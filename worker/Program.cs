@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace DriveVidStore_Worker
 {
@@ -12,7 +13,7 @@ namespace DriveVidStore_Worker
     {
         private const string UPLOAD_JOBS_QUEUE_NAME = "uploadjobs";
         private static string StorageAccountConnectionString => Environment.GetEnvironmentVariable("StorageAccountConnectionString");
-        private static string FfmpegPath => @"C:\Users\colte\Downloads\ffmpeg-2021-12-23-git-60ead5cd68-essentials_build\bin\ffmpeg.exe"; // TODO: Get this from configuration
+        private static string FfmpegPath => @"/src/3rd-party/ffmpeg-4.4.1-amd64-static/ffmpeg";
 
         static void Main(string[] args)
         {
@@ -45,15 +46,26 @@ namespace DriveVidStore_Worker
                     var jobApiKey = messageBody["ApiKey"];
                     var jobFileName = messageBody["FileName"];
 
-                    var jobDataPath = DownloadJobAndReturnPath(jobUserId, jobId);
-                    var processedJobDataPath = CompressJobDataAndReturnPath(jobDataPath);
-                    UploadJobDataToDrive(processedJobDataPath, jobApiKey, jobFileName);
+
+                    try
+                    {
+                        var jobDataPath = DownloadJobAndReturnPath(jobUserId, jobId);
+                        var processedJobDataPath = CompressJobDataAndReturnPath(jobDataPath);
+                        UploadJobDataToDrive(processedJobDataPath, jobApiKey, jobFileName);
+                        Console.WriteLine("Message processed successfully.");
+                        queueClient.DeleteMessage(retrievedMessage[0].MessageId, retrievedMessage[0].PopReceipt);
+                    }
+                    catch(JobProcessingException ex)
+                    {
+                        Console.WriteLine($"Message processing failed with known error {ex.JobErrorMessage()}.");
+                        queueClient.DeleteMessage(retrievedMessage[0].MessageId, retrievedMessage[0].PopReceipt);
+                    }
 
                     // TODO: Delete file from FireBase on success
 
                     // Delete the message
-                    queueClient.DeleteMessage(retrievedMessage[0].MessageId, retrievedMessage[0].PopReceipt);
-                    Console.WriteLine("Message processed successfully.");
+                    
+                   
                 }
             }
         }
@@ -61,7 +73,7 @@ namespace DriveVidStore_Worker
         public static string DownloadJobAndReturnPath(string userId, string identifier)
         {
             var storageClient = StorageClient.Create();
-            var destinationPath = @"c:\tmp-download\" + $"{userId}-{identifier}"; // TODO: Inject destination path
+            var destinationPath = @"/tmp/" + $"{userId}-{identifier}"; // TODO: Inject base path
             
             using (FileStream fs = File.Create(destinationPath))
             {
@@ -74,7 +86,7 @@ namespace DriveVidStore_Worker
         {
             Console.WriteLine(jobDatapath);
             string processedFilePath = jobDatapath + ".processed.mp4";
-            string compressVideoCommand = $"{FfmpegPath} -i {jobDatapath} -vcodec h264 -acodec mp3 {processedFilePath}";
+            string compressVideoCommand = $"{FfmpegPath} -y -i {jobDatapath} -vcodec h264 -acodec mp3 {processedFilePath}";
             Console.WriteLine(compressVideoCommand);
             var commandExitStatus = ExecuteCommandUnsafe(compressVideoCommand);
             if (commandExitStatus != 0)
@@ -89,9 +101,23 @@ namespace DriveVidStore_Worker
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                startInfo.FileName = "/bin/bash";
+                startInfo.Arguments = $"-c \"{command}\"";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = $"/C {command}";
+            }
+            else
+            {
+                throw new Exception("Platform not supported");
+            }
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = $"/C {command}";
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
             process.StartInfo = startInfo;
             process.Start();
             process.WaitForExit();

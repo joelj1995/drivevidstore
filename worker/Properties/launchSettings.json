@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "DriveVidStore-Worker": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "environmentVariables": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "/firebase-secrets/drivevidstore-firebase-adminsdk-fxpsy-2ed43d6e16.json",
+        "StorageAccountConnectionString": "REPLACE_ME"
+      }
+    }
+  }
+}
