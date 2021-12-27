@@ -5,9 +5,9 @@ services:
     image: drivevidstoreapi:dev2
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/firebase-secrets/drivevidstore-firebase-adminsdk-fxpsy-2ed43d6e16.json
-      - StorageAccountConnectionString=REPLACE_ME
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - StorageAccountConnectionString=${StorageAccountConnectionString}
     ports:
       - 443:443
       - 80:80
@@ -21,6 +21,6 @@ services:
     image: drivevidstoreworker:dev2
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/firebase-secrets/drivevidstore-firebase-adminsdk-fxpsy-2ed43d6e16.json
-      - StorageAccountConnectionString=REPLACE_ME
+      - StorageAccountConnectionString=${StorageAccountConnectionString}
     volumes:
       - C:\firebase-secrets:/firebase-secrets
