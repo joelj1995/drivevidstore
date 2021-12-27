@@ -1,0 +1,6 @@
+.main-card {
+    width: 500px;
+    margin-top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+}
