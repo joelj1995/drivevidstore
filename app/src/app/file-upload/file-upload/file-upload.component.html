@@ -1,7 +1,0 @@
-<div class="form-group">
-    <button (click)="getAuthToken()" *ngIf="!apiKey; else uploadTemplate">Authenticate</button>
-    <ng-template #uploadTemplate >
-        <label for="file">Choose File</label>
-        <input type="file" id="file" (change)="uploadFile($event.target.files)">
-    </ng-template>
-</div>

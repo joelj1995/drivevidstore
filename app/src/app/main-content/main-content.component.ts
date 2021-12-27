@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { JobService } from '../job.service';
 
 @Component({
   selector: 'app-main-content',
@@ -10,7 +11,7 @@ export class MainContentComponent implements OnInit {
 
   apiKey?: string = null;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private jobService: JobService) {
     this.route.fragment.subscribe((fragment: string) => {
       var p = new URLSearchParams(fragment);
       if (p.get('access_token')) {
@@ -22,10 +23,6 @@ export class MainContentComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  runUpload() {
-
-  }
-
   clearToken() {
     this.apiKey = null;
   }
@@ -33,7 +30,7 @@ export class MainContentComponent implements OnInit {
   uploadFileChanged(files: FileList) {
     const fileToUpload = files.item(0);
     if (fileToUpload) { // didn't cancel the operation
-
+      this.jobService.processFile(fileToUpload, this.apiKey);
     }
   }
 
