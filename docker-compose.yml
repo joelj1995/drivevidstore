@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  api:
+    image: drivevidstoreapi:dev2
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/firebase-secrets/drivevidstore-firebase-adminsdk-fxpsy-2ed43d6e16.json
+      - StorageAccountConnectionString=REPLACE_ME
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - C:\firebase-secrets:/firebase-secrets
+      - C:\Users\colte\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+      - C:\Users\colte\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+      - C:\Users\colte\.nuget\packages\:/root/.nuget/fallbackpackages
+
+  worker:
+    image: drivevidstoreworker:dev2
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/firebase-secrets/drivevidstore-firebase-adminsdk-fxpsy-2ed43d6e16.json
+      - StorageAccountConnectionString=REPLACE_ME
+    volumes:
+      - C:\firebase-secrets:/firebase-secrets

@@ -13,7 +13,7 @@ namespace DriveVidStore_Worker
     {
         private const string UPLOAD_JOBS_QUEUE_NAME = "uploadjobs";
         private static string StorageAccountConnectionString => Environment.GetEnvironmentVariable("StorageAccountConnectionString");
-        private static string FfmpegPath => @"/src/3rd-party/ffmpeg-4.4.1-amd64-static/ffmpeg";
+        private static string FfmpegPath => @"/3rd-party/ffmpeg-4.4.1-amd64-static/ffmpeg";
 
         static void Main(string[] args)
         {
