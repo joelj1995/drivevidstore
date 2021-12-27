@@ -4,7 +4,7 @@
         <p>Select a file to upload.</p>
         <input mat-stroked-button type="file" (change)="uploadFileChanged($event.target.files)"
             style="display: none;" #fileInput>
-        <button mat-fab color="primary" aria-label="Select file for upload" (click)="fileInput.click()">
+        <button mat-fab color="primary" aria-label="Select file for upload" (click)="fileInput.click()" [disabled]="!authValidated">
             <mat-icon>upload</mat-icon>
         </button>
     </mat-card-content>

@@ -11,8 +11,10 @@ import { environment } from '../environments/environment';
 
 import { LoginComponent } from './login/login.component';
 import { MaterialModule } from './material/material.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MainContentComponent } from './main-content/main-content.component';
+
+import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { MainContentComponent } from './main-content/main-content.component';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

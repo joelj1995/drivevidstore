@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../api.service';
 import { JobService } from '../job.service';
 
 @Component({
@@ -10,8 +11,9 @@ import { JobService } from '../job.service';
 export class MainContentComponent implements OnInit {
 
   apiKey?: string = null;
+  authValidated: boolean = false;
 
-  constructor(private route: ActivatedRoute, private jobService: JobService) {
+  constructor(private route: ActivatedRoute, private jobService: JobService, private apiService: ApiService) {
     this.route.fragment.subscribe((fragment: string) => {
       var p = new URLSearchParams(fragment);
       if (p.get('access_token')) {
@@ -21,6 +23,9 @@ export class MainContentComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.apiService.getDriveApiKeys().subscribe(_ => {
+      this.authValidated = true;
+    });
   }
 
   clearToken() {
