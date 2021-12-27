@@ -1,7 +1,12 @@
 <mat-card class="main-card">
     <mat-card-title>{{ apiKey ? 'Upload a video' : 'Authentication required' }}</mat-card-title>
-    <mat-card-content *ngIf="apiKey; else authNeededContent">
-        <p>This is the upload screen.</p>
+    <mat-card-content *ngIf="apiKey; else authNeededContent" style="justify-content: center;">
+        <p>Select a file to upload.</p>
+        <input mat-stroked-button type="file" (change)="uploadFileChanged($event.target.files)"
+            style="display: none;" #fileInput>
+        <button mat-fab color="primary" aria-label="Select file for upload" (click)="fileInput.click()">
+            <mat-icon>upload</mat-icon>
+        </button>
     </mat-card-content>
     <ng-template #authNeededContent>
         <mat-card-content>
@@ -9,11 +14,11 @@
         </mat-card-content>
     </ng-template>
     <mat-card-actions *ngIf="apiKey; else authNeededActions">
-        <button mat-stroked-button color="accent" (click)="runUpload()">Upload</button>
         <button mat-stroked-button color="accent" (click)="clearToken()">Clear token</button>
     </mat-card-actions>
-    <ng-template #authNeededActions> <!-- Remove when login integrated with google -->
-        <mat-card-actions >
+    <ng-template #authNeededActions>
+        <!-- Remove when login integrated with google -->
+        <mat-card-actions>
             <button mat-stroked-button color="accent" (click)="getAuthToken()">Authenticate with google</button>
         </mat-card-actions>
     </ng-template>
