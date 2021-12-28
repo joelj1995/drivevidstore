@@ -3,9 +3,17 @@
     <mat-card-content *ngIf="apiKey; else authNeededContent" style="text-align: center;">
         <input mat-stroked-button type="file" (change)="uploadFileChanged($event.target.files)"
             style="display: none;" #fileInput>
-        <button mat-fab color="primary" aria-label="Select file for upload" (click)="fileInput.click()" [disabled]="!authValidated">
+        <button mat-fab 
+            color="primary" 
+            aria-label="Select file for upload" 
+            (click)="fileInput.click()" 
+            [disabled]="!authValidated"
+            *ngIf="!spinning; else uploadSpinning">
             <mat-icon>upload</mat-icon>
         </button>
+        <ng-template #uploadSpinning>
+            <mat-spinner style="margin:0 auto;" ></mat-spinner>
+        </ng-template>
         <p>Select a file to upload.</p>
     </mat-card-content>
     <ng-template #authNeededContent>

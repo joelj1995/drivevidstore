@@ -14,6 +14,7 @@ export class MainContentComponent implements OnInit {
 
   apiKey?: string = null;
   authValidated: boolean = false;
+  spinning: boolean = false;
 
   constructor(private route: ActivatedRoute, private jobService: JobService, private apiService: ApiService) {
     this.route.fragment.subscribe((fragment: string) => {
@@ -42,7 +43,9 @@ export class MainContentComponent implements OnInit {
   }
 
   uploadFileChanged(files: FileList) {
+    this.spinning = true;
     this.pingApi().then(() => {
+      this.spinning = false;
       const fileToUpload = files.item(0);
       if (fileToUpload) { // didn't cancel the operation
         this.jobService.processFile(fileToUpload, this.apiKey);
