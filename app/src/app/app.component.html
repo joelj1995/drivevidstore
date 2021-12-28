@@ -1,5 +1,18 @@
-<mat-toolbar color="primary">
-  <mat-icon>local_fire_department</mat-icon>
-  <span>Drive Vid Store</span>
-</mat-toolbar>
-<router-outlet></router-outlet>
+<mat-sidenav-container class="app-sidenav-container">
+  <mat-sidenav #sidenav class="app-sidenav mat-elevation-z10" mode="over">
+    <p>floo-floo</p>
+  </mat-sidenav>
+  <mat-sidenav-content class="app-sidenav-content">
+    <mat-toolbar color="primary">
+      <mat-icon>local_fire_department</mat-icon>
+      <span>Drive Vid Store</span>
+      <span class="example-spacer"></span>
+      <button mat-raised-button color="primary" [matBadge]="activeJobsCount" matBadgePosition="before" matBadgeColor="accent" (click)="sidenav.toggle()">
+        Uploads
+      </button>
+    </mat-toolbar>
+    <div class="wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

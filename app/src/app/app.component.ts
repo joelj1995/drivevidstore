@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'drive-vid-store-ui';
+
+  activeJobsCount: number = 1;
 }

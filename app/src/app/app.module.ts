@@ -15,12 +15,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MainContentComponent } from './main-content/main-content.component';
 
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
+import { JobListComponent } from './job-list/job-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MainContentComponent
+    MainContentComponent,
+    JobListComponent,
   ],
   imports: [
     BrowserModule,
