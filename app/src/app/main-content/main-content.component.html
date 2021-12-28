@@ -1,12 +1,12 @@
 <mat-card class="main-card">
     <mat-card-title>{{ apiKey ? 'Upload a video' : 'Authentication required' }}</mat-card-title>
-    <mat-card-content *ngIf="apiKey; else authNeededContent" style="justify-content: center;">
-        <p>Select a file to upload.</p>
+    <mat-card-content *ngIf="apiKey; else authNeededContent" style="text-align: center;">
         <input mat-stroked-button type="file" (change)="uploadFileChanged($event.target.files)"
             style="display: none;" #fileInput>
         <button mat-fab color="primary" aria-label="Select file for upload" (click)="fileInput.click()" [disabled]="!authValidated">
             <mat-icon>upload</mat-icon>
         </button>
+        <p>Select a file to upload.</p>
     </mat-card-content>
     <ng-template #authNeededContent>
         <mat-card-content>
