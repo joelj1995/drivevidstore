@@ -1,10 +1,10 @@
 <mat-list>
     <mat-list-item *ngFor="let job of jobs | async">
       <mat-icon matListIcon>folder</mat-icon><!-- TODO: Icon for status -->
-      <h3 matLine> {{job.id}} </h3>
+      <h3 matLine> {{job.fileName}} </h3>
       <p matLine>
         <span> {{job.status}} </span>
-        <span class="demo-2"> -- {{job.status}} </span>
+        <span class="demo-2"> -- {{job.started | date:'medium'}} </span>
       </p>
     </mat-list-item>
   </mat-list>

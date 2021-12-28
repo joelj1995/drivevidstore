@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { JobService } from './job.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,16 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'drive-vid-store-ui';
 
-  activeJobsCount: number = 1;
+  activeJobsCount: number = 0;
+
+  constructor (private jobService: JobService) {
+
+  }
+
+  ngOnInit() {
+    this.jobService.queuedJobs.subscribe(jobs => {
+      this.activeJobsCount = jobs.length;
+    })
+  }
+
 }

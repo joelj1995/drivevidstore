@@ -28,6 +28,14 @@ export class JobService {
     this._queueSubject.next(this._queue);
   }
 
+  private transitionStatus(jobId: string, status: string) {
+    const idx = this._queue.findIndex(j => j.id == jobId);
+    if (idx >= 0) {
+      this._queue[idx].status = status;
+      this._queueSubject.next(this._queue);
+    }
+  }
+
   private popFromQueue(jobId: string) {
     this._queue = this._queue.filter(i => i.id != jobId);
     this._queueSubject.next(this._queue);
@@ -40,16 +48,18 @@ export class JobService {
     jobToQueue.id = uploadUid;
     jobToQueue.fileName = file.name;
     jobToQueue.status = 'Uploading';
+    jobToQueue.started = new Date();
     this.addToQueue(jobToQueue);
     this.fireStorage.upload(`${userId}/${uploadUid}`, file)
       .then(snapshot => {
         console.log('File upload completed');
+        this.transitionStatus(uploadUid, 'Uploading');
         return this.apiService.equeueUpload(uploadUid, apiKey, file.name).toPromise();
       })
       .then(value => {
         console.log('Upload enqueued');
-        this.popFromQueue(uploadUid);
+        this.transitionStatus(uploadUid, 'Enqueued');
+        // this.popFromQueue(uploadUid); // enable this when tracking of server side jobs supported
       });
   }
-
 }
