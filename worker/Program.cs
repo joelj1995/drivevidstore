@@ -34,10 +34,8 @@ namespace DriveVidStore_Worker
             {
                 QueueMessage[] retrievedMessage = queueClient.ReceiveMessages(visibilityTimeout: AzureTimeout);
 
-                // Process (i.e. print) the message in less than 30 seconds
                 if (retrievedMessage.Length > 0)
                 {
-                    // TODO: Make sure timeout is aligned with the max time to process job
                     Console.WriteLine($"Dequeued message: '{retrievedMessage[0].Body}'");
                     var messageBodyText = retrievedMessage[0].Body.ToString();
                     var messageBody = JsonConvert.DeserializeObject<Dictionary<string, string>>(messageBodyText);
@@ -62,10 +60,6 @@ namespace DriveVidStore_Worker
                     }
 
                     // TODO: Delete file from FireBase on success
-
-                    // Delete the message
-                    
-                   
                 }
             }
         }
