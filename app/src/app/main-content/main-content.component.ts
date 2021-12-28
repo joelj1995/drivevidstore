@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { JobService } from '../job.service';
 
+const apiKeyTimeout: number = 1000 * 60 * 15;
+
 @Component({
   selector: 'app-main-content',
   templateUrl: './main-content.component.html',
@@ -18,6 +20,9 @@ export class MainContentComponent implements OnInit {
       var p = new URLSearchParams(fragment);
       if (p.get('access_token')) {
         this.apiKey = p.get('access_token');
+        setTimeout(() =>{
+          this.apiKey = null;
+        }, apiKeyTimeout)
       }
     });
    }
