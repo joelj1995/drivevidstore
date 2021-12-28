@@ -82,7 +82,6 @@ namespace DriveVidStore_Worker
                             if (TryUploadChunk(location, originalBytes, start, end, total))
                                 break;
                         }
-
                     }
                 }
             }

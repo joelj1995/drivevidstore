@@ -14,6 +14,7 @@ namespace DriveVidStore_Worker
         private const string UPLOAD_JOBS_QUEUE_NAME = "uploadjobs";
         private static string StorageAccountConnectionString => Environment.GetEnvironmentVariable("StorageAccountConnectionString");
         private static string FfmpegPath => @"/3rd-party/ffmpeg-4.4.1-amd64-static/ffmpeg";
+        private static TimeSpan AzureTimeout => new TimeSpan(0, 10, 0);
 
         static void Main(string[] args)
         {
@@ -31,7 +32,7 @@ namespace DriveVidStore_Worker
 
             if (queueClient.Exists())
             {
-                QueueMessage[] retrievedMessage = queueClient.ReceiveMessages();
+                QueueMessage[] retrievedMessage = queueClient.ReceiveMessages(visibilityTimeout: AzureTimeout);
 
                 // Process (i.e. print) the message in less than 30 seconds
                 if (retrievedMessage.Length > 0)
@@ -46,7 +47,6 @@ namespace DriveVidStore_Worker
                     var jobApiKey = messageBody["ApiKey"];
                     var jobFileName = messageBody["FileName"];
 
-
                     try
                     {
                         var jobDataPath = DownloadJobAndReturnPath(jobUserId, jobId);
@@ -57,7 +57,7 @@ namespace DriveVidStore_Worker
                     }
                     catch(JobProcessingException ex)
                     {
-                        Console.WriteLine($"Message processing failed with known error {ex.JobErrorMessage()}.");
+                        Console.WriteLine($"Message processing failed with known error {ex.JobErrorMessage()}");
                         queueClient.DeleteMessage(retrievedMessage[0].MessageId, retrievedMessage[0].PopReceipt);
                     }
 
@@ -120,7 +120,11 @@ namespace DriveVidStore_Worker
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo = startInfo;
             process.Start();
-            process.WaitForExit();
+            if(!process.WaitForExit((AzureTimeout / 2).Milliseconds))
+            {
+                process.Kill();
+                throw new TimeoutException();
+            }
             return process.ExitCode;
         }
 

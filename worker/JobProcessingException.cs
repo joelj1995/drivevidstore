@@ -13,4 +13,9 @@ namespace DriveVidStore_Worker
     {
         public override string JobErrorMessage() => "Google Authentication token expired.";
     }
+
+    class TimeoutException : JobProcessingException
+    {
+        public override string JobErrorMessage() => "The command did not complete within the timeout period.";
+    }
 }
