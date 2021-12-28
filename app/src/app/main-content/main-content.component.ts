@@ -28,9 +28,13 @@ export class MainContentComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.apiService.getDriveApiKeys().subscribe(_ => {
+    this.pingApi().then(() => {
       this.authValidated = true;
     });
+  }
+
+  pingApi() {
+    return this.apiService.getDriveApiKeys().toPromise();
   }
 
   clearToken() {
@@ -38,10 +42,12 @@ export class MainContentComponent implements OnInit {
   }
 
   uploadFileChanged(files: FileList) {
-    const fileToUpload = files.item(0);
-    if (fileToUpload) { // didn't cancel the operation
-      this.jobService.processFile(fileToUpload, this.apiKey);
-    }
+    this.pingApi().then(() => {
+      const fileToUpload = files.item(0);
+      if (fileToUpload) { // didn't cancel the operation
+        this.jobService.processFile(fileToUpload, this.apiKey);
+      }
+    });
   }
 
   getAuthToken() {
