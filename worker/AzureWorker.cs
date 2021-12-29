@@ -107,7 +107,7 @@ namespace DriveVidStore_Worker
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo = startInfo;
             process.Start();
-            if (!process.WaitForExit((AzureTimeout / 2).Milliseconds))
+            if (!process.WaitForExit((int)(AzureTimeout / 2).TotalMilliseconds))
             {
                 process.Kill();
                 throw new TimeoutException();
