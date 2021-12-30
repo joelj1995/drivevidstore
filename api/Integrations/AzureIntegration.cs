@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Azure.Storage.Queues; // Namespace for Queue storage types
 using Azure.Storage.Queues.Models; // Namespace for PeekedMessage
 using System.Text.Json;
+using DrivVidStore_Common.Model;
 
 namespace DriveVidStore_Api.Integrations
 {

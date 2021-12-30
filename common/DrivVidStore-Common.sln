@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveVidStore-Api", "DriveVidStore-Api.csproj", "{9BB81D5E-5AC5-40C3-B45F-FED8B2A47E41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrivVidStore-Common", "DrivVidStore-Common.csproj", "{FD020884-4935-4A14-89D3-D4463D71D3CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9BB81D5E-5AC5-40C3-B45F-FED8B2A47E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BB81D5E-5AC5-40C3-B45F-FED8B2A47E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BB81D5E-5AC5-40C3-B45F-FED8B2A47E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BB81D5E-5AC5-40C3-B45F-FED8B2A47E41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD020884-4935-4A14-89D3-D4463D71D3CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD020884-4935-4A14-89D3-D4463D71D3CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD020884-4935-4A14-89D3-D4463D71D3CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD020884-4935-4A14-89D3-D4463D71D3CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {105CD1C2-7634-4E30-A7CF-57E7003FC140}
+		SolutionGuid = {1325F28F-5022-47FD-802E-1374F98042F6}
 	EndGlobalSection
 EndGlobal

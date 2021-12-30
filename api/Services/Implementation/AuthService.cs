@@ -1,6 +1,6 @@
-﻿using DriveVidStore_Api.Integrations;
-using DriveVidStore_Api.Models.Auth;
+﻿using DriveVidStore_Api.Models.Auth;
 using DriveVidStore_Api.Services.Interface;
+using DrivVidStore_Common.Integrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace DriveVidStore_Api.Services.Implementation
     public class AuthService : IAuthService
     {
         // TODO: Use dependency injection
-        private readonly FireBaseIntegration _fb = new FireBaseIntegration();
+        private readonly FirebaseIntegration _fb = new FirebaseIntegration();
 
         public async Task<bool> CreateAccount(CreateAccountRequest createAccountRequest)
         {

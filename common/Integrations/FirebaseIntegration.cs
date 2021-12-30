@@ -1,18 +1,17 @@
-﻿using DriveVidStore_Api.Models.Job;
-using DriveVidStore_Api.Models.Profile;
+﻿using DrivVidStore_Common.Model;
 using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
-using Google.Cloud.Firestore.V1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace DriveVidStore_Api.Integrations
+namespace DrivVidStore_Common.Integrations
 {
-    public sealed class FireBaseIntegration
+    public sealed class FirebaseIntegration
     {
         private static readonly FirebaseApp _app = FirebaseApp.Create(new AppOptions()
         {

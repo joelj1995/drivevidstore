@@ -1,4 +1,4 @@
-﻿using DriveVidStore_Api.Models.Profile;
+﻿using DrivVidStore_Common.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

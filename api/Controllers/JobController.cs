@@ -1,5 +1,6 @@
 ﻿using DriveVidStore_Api.Models.Job;
 using DriveVidStore_Api.Services.Interface;
+using DrivVidStore_Common.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
